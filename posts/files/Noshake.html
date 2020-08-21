@@ -91,8 +91,8 @@
 <p>The admin does not like to shake hands, virus!</p><br><br>
 <h2 id="initial-analysis">Initial analysis</h2>
 <p>We are provided with a service where you send a mail to the admin on what you want to hear from him. Once we click send, we receive few response codes and an encrypted message.</p>
-<div class="figure">
-<img src="img/one.jpg" alt="one" /><p class="caption">one</p>
+<div class="figure"><br>
+<img src="/posts/files/one.jpg" /><p class="caption">one</p>
 </div>
 <p>When we do a quick search on the response codes:</p>
 <p><code>220: SMTP Response code -&gt; &lt;SERVER&gt; Service ready</code> <code>250 – This SMTP server response simply means everything went well and your message was delivered to the recipient server.</code></p>
@@ -102,17 +102,17 @@
 <p>SENDER_MAIL_SERVER ------- TCP Handshake -----&gt; RECEIVER_MAIL_SERVER<br> SENDER_MAIL_SERVER &lt;------- 220 Ready ------- RECEIVER_MAIL_SERVER<br> SENDER_MAIL_SERVER ------- EHLO -------&gt; RECEIVER_MAIL_SERVER<br> SENDER_MAIL_SERVER &lt;------- 250 STARTTLS ------ RECEIVER_MAIL_SERVER <br>SENDER_MAIL_SERVER ------- STARTTLS -------&gt; RECEIVER_MAIL_SERVER <br>SENDER_MAIL_SERVER &lt;------ 220 GO AHEAD ------ RECEIVER_MAIL_SERVER <br>SENDER_MAIL_SERVER ------- TLS negotiation ------&gt; RECEIVER_MAIL_SERVER <br>SENDER_MAIL_SERVER ------- Encrypted mail -------&gt; RECEIVER_MAIL_SERVER</p><br><br>
 <h2 id="starttls-downgrade-attack">Starttls Downgrade attack</h2>
 <p>So in /server.php, we are getting the encrypted text of what the admin sent. Then comes tls downgrade attacks prevent email encryption or STARTTLS downgrade attacks. SMTP client as part of the protocol negotiation. If the client supports encryption (TLS), it will understand the STARTTLS verb and will initiate a TLS exchange before sending the email to ensure it is encrypted. If the client doesn't know TLS, it will simply ignore the STARTTLS and send the email in clear.</p>
-<p>SENDER_MAIL_SERVER ------- TCP Handshake -----&gt; RECEIVER_MAIL_SERVER SENDER_MAIL_SERVER &lt;------- 220 Ready ------- RECEIVER_MAIL_SERVER SENDER_MAIL_SERVER ------- EHLO -------&gt; RECEIVER_MAIL_SERVER SENDER &lt;------ XXXXXXXX ------ MITM ------ 250 STARTTLS ------ RECEIVER SENDER_MAIL_SERVER ----- Email in Clear text -----&gt; RECEIVER_MAIL_SERVER</p>
+<p>SENDER_MAIL_SERVER ------- TCP Handshake -----&gt; RECEIVER_MAIL_SERVER<br> SENDER_MAIL_SERVER &lt;------- 220 Ready ------- RECEIVER_MAIL_SERVER<br>  SENDER_MAIL_SERVER ------- EHLO -------&gt; RECEIVER_MAIL_SERVER <br> SENDER &lt;------ XXXXXXXX ------ MITM ------ 250 STARTTLS ------ RECEIVER<br>  SENDER_MAIL_SERVER ----- Email in Clear text -----&gt; RECEIVER_MAIL_SERVER</p>
 <p>A downgrade attack replaces STARTTLS with a garbage string such as XXXXXXXX. The client sees the garbage string, and it may decide it is an option it doesn't know and so happily falls back to sending the email in clear text. The attacker usually replaces the command with garbage rather than stripping it out because this preserves the packet size and therefore, makes it easier. The eight letters in the garbage string in the option command allow us to detect that a TLS downgrade attack has been carried out and we can measure its prevalence.</p>
-<div class="figure">
-<img src="two.jpg"><p class="caption">two</p>
+<div class="figure"><br>
+<img src="/posts/files/two.jpg">
 </div>
 <p>When we give junk values as Cmd, we can not that: Numbers and printable characters are blocked, so we inject unicode values with length = 8 to do the downgrade and receive the message in clear form which says key is <code>sT4yH0M3</code> Now where to input the key? In the source code of /server.php, we see a hint <code>go to /final.php</code></p>
 <p>In the /final.php, key is asked for and when we submit the key(?key=sT4yH0M3), we receive the first phase which is a strcasecmp bypass which can be bypassed by giving an array value. strcasecmp had some issues when comparing a string to something else. If I set $_GET['abc'] equal to an empty array, then strcmp would return a NULL. Due to some inherent weaknesses in PHP's comparisons, NULL == 0 will return true. Giving <code>?abc[]=some_junk_value</code>, we get the next phase.</p><br><br>
 <h2 id="deserialization-to-rce">Deserialization to RCE</h2>
 <p>PHP serialization supports references. After the input field value of the unserialized object is unserialized, it can be matched with the covered flag value. Create and serialize data with a reference variable set for flag field in input. R-&gt; pointer reference stdClass-&gt; PHP's generic empty class When we give the input <code>?def=O:8:&quot;stdClass&quot;:2:{s:4:&quot;flag&quot;;N;s:3:&quot;xyz&quot;;R:2;}</code> we get the last phase which is deserialisation to RCE. After going into the functions Dogs and then Cats, a system function is called on the input. Calling both functions along with giving a system command to list out the files in the service by <code>?ghi=O:4:&quot;Dogs&quot;:1:{s:3:&quot;obj&quot;;O:4:&quot;Cats&quot;:1:{s:3:&quot;cmd&quot;;s:2:&quot;ls&quot;;}}</code> We receive the final flag variable inside the file running by reading the /final.php using <code>?ghi=O:4:&quot;Dogs&quot;:1:{s:3:&quot;obj&quot;;O:4:&quot;Cats&quot;:1:{s:3:&quot;cmd&quot;;s:13:&quot;cat%20final.php&quot;;}}</code></p>
-<div class="figure">
-<img src="public/posts/img/three.jpg" alt="three" /><p class="caption">three</p>
+<div class="figure"><br>
+<img src="/posts/files/three.jpg" />
 </div><br><br>
 <h2 id="flag">Flag</h2>
 <p><strong>FLAG</strong>: <code>inctf{Rc3_n_d0wngr4d35_d0n7_g0_W3Ll:}</code></p>
