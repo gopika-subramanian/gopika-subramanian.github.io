@@ -73,40 +73,17 @@
 
 
       <div class="content">
-        <section class="container centered">
- 
+        
+  <section class="container centered">
   <div class="error">
-   
-   <h1 id="google-ctf-2020-log-me-in">Google CTF 2020 Log me in</h1><br><br>
-<p><strong>tl;dr</strong></p>
-<ul>
-<li>The bodyparse allows data to be send in arrays</li>
-<li>Send username[]=michelle and password[id] to get michelles session</li>
-<li>Use michelles cookies to retreive flag</li>
-</ul><br>
-<h2 id="challenge-description">Challenge description</h2>
-<p>Log in to get the flag</p>
-<h2 id="initial-analysis">Initial analysis</h2>
-<p>We are provided with an application which has the functionalities to login, view profile, About and view Flag. We are able to login as username: admin and password: admin but we are not able to get use the flag functionality since it says <code>Only Michelle's account has the flag</code></p>
-<p>We were also provided with a <a href="/posts/files/gctf_logmein/app.js">source code </a>and one of the main thing to notice is <code>app.use(bodyParser.urlencoded({extended: true}))</code> and we can send sql params as arrays and it will be parsed. In the cookies there was session cookie with the value decoded as {&quot;username&quot;:&quot;admin&quot;,&quot;flag&quot;:&quot;<span class="text-danger">Only Michelle's account has the flag</span>&quot;;} and a session.sig.</p>
-<p>So what we had to do was to find michelles session and session.sig and get the flag.</p>
-<p><img src="/posts/files/gctf_logmein/one.png" alt="one" /></p>
-<p>When we pass the request as <code>username[]=a&amp;amp;username[]=b&amp;amp;password[]=c&amp;amp;password[]=d&amp;amp;csrf=</code> we get the error: Unknown error: Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' 'b' and password = 'c', 'd' order by id' at line 1</p>
-<p>When we finally send the request as <code>username=Michelle&amp;amp;password[id]=&amp;amp;csrf=</code> we get michelles session and session.sig</p>
-<p><img src="/posts/files/gctf_logmein/two.png" alt="two" /></p>
-<p>After that when we give to the admin|admin cookies, we will be able to access the flag</p>
-<p><img src="/posts/files/gctf_logmein/three.png" alt="three" /></p>
-<h2 id="flag">Flag</h2>
-<p><strong>FLAG</strong>: <code>CTF{a-premium-effort-deserves-a-premium-flag}</code></p>
-<p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a></p>
-
-
+    <h1>Lord of SQL Write up</h1><br><br>
+    <p><a href="/posts/files/los/l1.html">Level 1</a></p>
+    <p><a href="/posts/files/los/l2.html">Level 2</a></p><br>
   </div>
-
 </section>
 
+
       </div>
-<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">
