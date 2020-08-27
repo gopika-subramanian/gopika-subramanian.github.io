@@ -76,18 +76,25 @@
         
   <section class="container centered">
   <div class="error">
-    <h1>Websec Write up</h1><br><br>
-    <p><a href="/posts/files/websec/l1.html">Level 1</a></p>
-    <p><a href="/posts/files/websec/l2.html">Level 2</a></p>
-    <p><a href="/posts/files/websec/l3.html">Level 3</a></p>
-    <p><a href="/posts/files/websec/l4.html">Level 4</a></p>
-    <p><a href="/posts/files/websec/l8.html">Level 8</a></p>
-    <p><a href="/posts/files/websec/l10.html">Level 10</a></p>
+   
+<h1 id="websec-level-8">WEBSEC Level 8</h1><br><br>
+<h3 id="challenge-description">Challenge description</h3>
+<p>Bypassing Security Checks</p><br>
+<h3 id="initial-analysis">Initial analysis</h3>
+<p><code>$uploadedFile = sprintf('%1$s/%2$s', '/uploads', sha1($_FILES['fileToUpload']['name']) . '.gif');                     if (file_exists ($uploadedFile)) { unlink ($uploadedFile); }                     if ($_FILES['fileToUpload']['size'] &lt;= 50000) {                         if (getimagesize ($_FILES['fileToUpload']['tmp_name']) !== false) {                             if (exif_imagetype($_FILES['fileToUpload']['tmp_name']) === IMAGETYPE_GIF) {                                 move_uploaded_file ($_FILES['fileToUpload']['tmp_name'], $uploadedFile);                                 echo '&lt;p class=&quot;lead&quot;&gt;Dump of &lt;a href=&quot;/level08' . $uploadedFile . '&quot;&gt;'. htmlentities($_FILES['fileToUpload']['name'])</code></p>
+<h3 id="tldr">tl;dr</h3>
+<p>STEP 1: Choose a gif file to be uploaded STEP 2: Intercept in Burp Suite STEP 3: Keep the GIF magic number(<code>GIF87a</code>) STEP 4: Add a php code to show flag.txt source <code>&lt;?php show_source('flag.txt');?&gt;</code> STEP 5: GIF89a</p>
+<p>OUTPUT: WEBSEC{BypassingImageChecksToRCE}</p><br>
+<h3 id="flag">Flag</h3>
+<p><strong>FLAG</strong>: <code>WEBSEC{BypassingImageChecksToRCE}</code></p>
+<p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
+
   </div>
 </section>
 
 
-      </div><br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
+      </div>
+<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">

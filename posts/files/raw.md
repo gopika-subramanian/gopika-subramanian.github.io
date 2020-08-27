@@ -8,9 +8,7 @@
 
 
 
-**Challenge points**: 
-**No. of solves**: 
-**Challenge Author**: [m0n574](https://twitter.com/m0n574)
+
 
 ## Challenge description
 
