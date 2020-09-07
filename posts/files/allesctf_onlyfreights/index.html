@@ -76,31 +76,45 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="alles-ctf-push">Alles CTF Push</h1><br><br>
-<h3 id="challenge-description">Challenge description</h3>
-<p>Push</p><br>
-<h3 id="tldr">tl;dr</h3>
+   
+<h1 id="alles-ctf-2020-onlyfreights">Alles CTF 2020 OnlyFreights</h1><br><br>
+<h2><strong>tl;dr</strong></h2>
 <ul>
-<li>The website uses Nginx 1.14.1</li>
-<li>Nginx 1.13.9+ versions has HTTP/2 Server Push</li>
-<li>Command-Line Client nghttp pre‑emptively push resources including the flag</li>
-</ul>
-<h3 id="initial-analysis">Initial Analysis</h3>
-<p>We are provided with a simple website with just a marquee tag with the content &quot;push&quot;. The service does not show any directories while run with dirbusters and no git/svg/bzr dumps.</p>
+<li>Prototype pollution to RCE</li>
+<li>Bypass the comparison check of binary</li>
+<li>Execute the binary to read flags using code execution</li>
+</ul><br>
+<h2 id="challenge-description">Challenge description</h2>
+<p>Check out my OnlyFreights! A website to classify all the freight ships.</p>
+<p>NOTE: There is a secret cargo stored at /flag.txt,</p>
+<p>but you need to convince the /guard executable to hand it to you!</p>
+<p>Challenge Files: only-freights.zip</p><br>
+<h2 id="initial-analysis">Initial analysis</h2>
+<p>We are given with an application which can add container values, we are given the <a href="/posts/files/allesctf_onlyfreights/only-freights.zip">source code</a> and we can see that there are files like server.js, app.js, guard.c etc.</p>
 <div class="figure">
-<img src="/posts/files/allesctf_push/one.png" />
+<img src="/posts/files/allesctf_onlyfreights/one.png" />
 </div>
-<p>When we check Wappalyzer, we see that <code>Nginx version 1.14.1</code> is used. NGINX 1.13.9, released on February 20, 2018, includes support for HTTP/2 server push.</p>
+<p>In the guard.c file, we notice the function <code>print_flag()</code> which is called when <code>is_interactive()</code> function returns true when the input given is equal to the sum of two randomly generated number.</p>
+<p>Next thing we notice is the hint <code>ensure RCE is needed to get the flag</code> in the Dockerfile and <code>you need to convince the /guard executable</code> in the description. So this gives us the walkthrough of getting RCE to execute the guard binary to get the flag.</p><br>
+<h2 id="step-1---rce">Step 1 -&gt; RCE</h2>
+<p>In the server.js, we see <code>const { spawn } = require('child_process');</code> and we have three endpoints and one with the comment, supposedly another hint <code>TODO: remove before release</code> in the /<em>debug/stats endpoint, which has a spawn() function. child</em>process.spawn() has a set of options like env, shell, serialization etc and the note in the node.js documentation says <code>If the shell option is enabled, do not pass unsanitized user input to this function. Any input containing shell metacharacters may be used to trigger arbitrary command execution.</code></p>
+<p>The next thing we notice is <code>find(parentPath)[id] = value;</code> allows us to write to any arbitrary property, even <strong>proto</strong> which leads us to prototype pollution. Exploiting prototype pollution – RCE in Kibana <code>(CVE-2019-7609)</code> was an example of escating to Code execution from prototype pollution where they use use <code>NODE_OPTIONS</code> to pass command line arguments to <code>node</code> using the env variables. To make use of this NODE_OPTIONS as in CVE-2019-7639, we have to set shell to node.</p>
 <div class="figure">
-<img src="/posts/files/allesctf_push/two.png" />
+<img src="/posts/files/allesctf_onlyfreights/two.png" />
 </div>
-<p>Server push allows a server to <code>pre‑emptively push resources</code> to a remote client, anticipating that the client may soon request those resources. We can verify HTTP/2 Server Push by either The developer tools in your web browser or A command‑line HTTP/2 client such as nghttp. When we use the nghttp tool on the service we are given the flag folder.</p>
+<p>Next is to create an env so that we can invoke the command with this variable created by creating a env variable aaaa &quot;aaaa&quot;:&quot;console.log(123);//&quot;, &quot;NODE_OPTIONS&quot;: &quot;--require /proc/self/environ&quot;</p>
 <div class="figure">
-<img src="/posts/files/allesctf_push/three.png" />
+<img src="/posts/files/allesctf_onlyfreights/three.png" />
 </div>
-<p>When we go to the directory, we get the flag <code>ALLES{http2_push_dashdash_force}</code> printed.</p><br>
-<h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>ALLES{http2_push_dashdash_force}</code></p>
+<p>Next give the shell provoke command <code>__proto__.env.AAAA='require(&quot;child_process&quot;).exec(&quot;cmd&quot;);process.exit()//')</code> to get the shell execution check which prints out the files in the directory.</p>
+<div class="figure">
+<img src="/posts/files/allesctf_onlyfreights/four.png" />
+</div><br>
+<h2 id="step-2---execute-the-binary">Step 2 -&gt; Execute the binary</h2>
+<p>In this part we had to execute the binary and make the comparison of a+b which are two random numbers to be equal to c, so we had to read the two random numbers, sum it up and give the numbers as the input to bypass the comparison check.</p>
+<p>The trick is to read stdin and stdout, sum the stdin and submit to get the flag, I was only able to execute it locally which gives the fake flag. This challenge took a lot of time to solve but it was a really interesting challenge. I will update with a better solution soon &lt;3</p><br>
+<p><strong>FLAG</strong>: ``</p>
+<p><a href="https://research.securitum.com/prototype-pollution-rce-kibana-cve-2019-7609/">Reference</a></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
 
   </div>
