@@ -76,18 +76,39 @@
         
   <section class="container centered">
   <div class="error">
-    <h1>Posts</h1><br><br>
-    <p><a href="/posts/files/noshake/index.html">InCTF Internationals No-Shake write up</a></p><br>
-    <p><a href="/posts/files/websec/index.html">Websec write ups</a></p><br>
-    <p><a href="/posts/files/gctf_pasteurize/index.html">Google CTF Pasteurize</a></p><br>
-    <p><a href="/posts/files/los/index.html">Lord of SQL write ups</a></p><br>
-    <p><a href="/posts/files/gctf_logmein/index.html">Google CTF Log-me-in</a></p><br>
-    <p><a href="/posts/files/allesctf_push/index.html">Alles CTF Push</a></p><br>
+   <h1 id="alles-ctf-push">Alles CTF Push</h1>
+<h3 id="challenge-description">Challenge description</h3>
+<p>Push</p>
+<h3 id="tldr">tl;dr</h3>
+<ul>
+<li>The website uses Nginx 1.14.1</li>
+<li>Nginx 1.13.9+ versions has HTTP/2 Server Push</li>
+<li>Command-Line Client nghttp pre‑emptively push resources including the flag</li>
+</ul>
+<h3 id="initial-analysis">Initial Analysis</h3>
+<p>We are provided with a simple website with just a marquee tag with the content &quot;push&quot;. The service does not show any directories while run with dirbusters and no git/svg/bzr dumps.</p>
+<div class="figure">
+<img src="/posts/files/allesctf_push/one.png" />
+</div>
+<p>When we check Wappalyzer, we see that <code>Nginx version 1.14.1</code> is used. NGINX 1.13.9, released on February 20, 2018, includes support for HTTP/2 server push.</p>
+<div class="figure">
+<img src="/posts/files/allesctf_push/two.png" />
+</div>
+<p>Server push allows a server to <code>pre‑emptively push resources</code> to a remote client, anticipating that the client may soon request those resources. We can verify HTTP/2 Server Push by either The developer tools in your web browser or A command‑line HTTP/2 client such as nghttp. When we use the nghttp tool on the service we are given the flag folder.</p>
+<div class="figure">
+<img src="/posts/files/allesctf_push/three.png" />
+</div>
+<p>When we go to the directory, we get the flag <code>ALLES{http2_push_dashdash_force}</code> printed.</p>
+<h3 id="flag">Flag</h3>
+<p><strong>FLAG</strong>: <code>ALLES{http2_push_dashdash_force}</code></p>
+<p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
+
   </div>
 </section>
 
 
       </div>
+<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">
