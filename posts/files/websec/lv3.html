@@ -83,10 +83,10 @@
 <h3 id="initial-analysis">Initial analysis</h3>
 <p><code>&lt;?php if(isset($_POST['c'])) {     /*  Get rid of clever people that putc[]=bla*/  in the request to confusepassword_hash*/     $h2 = password_hash (sha1($_POST['c'], fa1se), PASSWORD_BCRYPT);     echo &quot;&lt;div class='row'&gt;&quot;;     if (password_verify (sha1($flag, fa1se), $h2) === true) {        echo &quot;&lt;p&gt;Here is your flag: &lt;mark&gt;$flag&lt;/mark&gt;&lt;/p&gt;&quot;;      } else {         echo &quot;&lt;p&gt;Here is the &lt;em&gt;hash&lt;/em&gt; of your flag: &lt;mark&gt;&quot; . sha1($flag, false) . &quot;&lt;/mark&gt;&lt;/p&gt;&quot;;     }     echo &quot;&lt;/div&gt;&quot;; } ?&gt;</code></p><br>
 <h3 id="tldr">tl;dr</h3>
-<p>STEP 1: <code>abcdefg</code> OUTPUT: Here is the hash of your flag: 7c00249d409a91ab84e3f421c193520d9fb3674b The check is till null character, thus only checks if the processed input is equal to &quot;7c00&quot; Notice that sha1(<span class="math"><em>f</em><em>l</em><em>a</em><em>g</em>, <em>f</em><em>a</em>1<em>s</em><em>e</em>)<em>a</em><em>n</em><em>d</em><em>s</em><em>h</em><em>a</em>1(</span>flag, true) gives the same output</p>
+<p>STEP 1: <code>abcdefg</code></p><p> OUTPUT: Here is the hash of your flag: 7c00249d409a91ab84e3f421c193520d9fb3674b The check is till null character, thus only checks if the processed input is equal to &quot;7c00&quot; Notice that sha1(<span class="math"><em>f</em><em>l</em><em>a</em><em>g</em>, <em>f</em><em>a</em>1<em>s</em><em>e</em>)<em>a</em><em>n</em><em>d</em><em>s</em><em>h</em><em>a</em>1(</span>flag, true) gives the same output</p>
 <p>STEP 2: <code>import hashlib import base64 i = 0 for i in range(20000000): res=hashlib.sha1(str(i)).hexdigest()[:4] if(res==&quot;7c00&quot;): print str(i)</code></p>
-<p>OUTPUT: 104610</p>
-<p>STEP 3: Input secret_flag1 as <code>104610</code> OUTPUT: Here is your flag: WEBSEC{Please_Do_not_combine_rAw_hash_functions_mi}</p><br>
+<p></p><p>OUTPUT: 104610</p>
+<p>STEP 3: Input secret_flag1 as <code>104610</code> </p><p>OUTPUT: Here is your flag: WEBSEC{Please_Do_not_combine_rAw_hash_functions_mi}</p><br>
 <h3 id="flag">Flag</h3>
 <p><strong>FLAG</strong>: <code>WEBSEC{Please_Do_not_combine_rAw_hash_functions_mi}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>

