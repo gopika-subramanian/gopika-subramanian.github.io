@@ -63,9 +63,10 @@
             <li class="navigation-item  align-center ">
               <a class="navigation-link" href="https://m0n574.github.io/about">About</a>
             </li>
-          <li class="navigation-item  align-center ">
+           <li class="navigation-item  align-center ">
               <a class="navigation-link" href="https://m0n574.github.io/Gopika_CV.pdf">CV</a>
             </li>
+          
         
         
       </ul>
@@ -78,22 +79,14 @@
         
   <section class="container centered">
   <div class="error">
-    <h1>Posts</h1><br><br>
-    <p><a href="/posts/files/MidnightsunqualsCTF/index.html">Midnightsun Quals CTF 2021 Corporate MFA</a></p><br>
-    <p><a href="/posts/files/SQLiWAFbypasses/index.html">SQLi basic bypasses</a></p><br>
-    <p><a href="/posts/files/phoenixproject/index.html">The Phoenix project: Main take aways</a></p><br>
-    <p><a href="/posts/files/noshake/index.html">InCTF Internationals 2020 No-Shake write up</a></p><br>
-    <p><a href="/posts/files/websec/index.html">Websec write ups</a></p><br>
-    <p><a href="/posts/files/los/index.html">Lord of SQL write ups</a></p><br>
-    <p><a href="/posts/files/gctf_pasteurize/index.html">Google CTF 2020 Pasteurize</a></p><br>
-    <p><a href="/posts/files/gctf_logmein/index.html">Google CTF 2020 Log-me-in</a></p><br>
-    <p><a href="/posts/files/allesctf_push/index.html">Alles CTF 2020 Push</a></p><br>
-    <p><a href="/posts/files/allesctf_onlyfreights/index.html">Alles CTF 2020 Only Freights</a></p><br>
+   
+
   </div>
 </section>
 
 
       </div>
+<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">
@@ -121,7 +114,22 @@
   <section class="container centered">
     
      
-    
+    <h1 id="fword-ctf-jailoo">Fword CTF Jailoo</h1>
+<p><strong>tl;dr</strong></p>
+<ul>
+<li>Input executed with eval</li>
+<li>Regex and blacklist restricts alphanumericals</li>
+<li>Php webshell with <code>$(])_[=;+&quot;.</code> chars gives flag</li>
+</ul>
+<h2 id="challenge-description">Challenge description</h2>
+<p>Get the flag in FLAG.PHP.</p>
+<h2 id="initial-analysis">Initial analysis</h2>
+<p><img src="one.png" alt="one" /><br> <code>if(preg_match_all('/^(\$|\(|\)|\_|\[|\]|\=|\;|\+|\&quot;|\.)*$/', $cmd, $matches)){     echo &quot;&lt;div class=\&quot;success\&quot;&gt;Command executed !&lt;/div&gt;&quot;;     eval($cmd);</code></p>
+<p>The challenge page takes an input, after analysising the source code, we find the following: The input is executed with <code>eval</code> function. The regex accepts only <code>$(])_[=;+&quot;.</code> characters. There was a similar challenge in a previous CTF making Php webshell without numbers and letters. Reference: https://www.programmersought.com/article/7881105401/ So the cooking of the webshell begins, although few obvious functions like file_get_contents where blacklisted -_- One that worked was <code>readfile('FLAG.PHP');</code> The command for the 20 letter string being </p>
+<p>Giving the above string gave us the flag <code>$flag=&quot;FwordCTF{Fr0m_3very_m0unta1ns1d3_l3t_fr33d0m_r1ng_MLK}&quot;;</code></p>
+<h2 id="flag">Flag</h2>
+<p><strong>FLAG</strong>: <code>$flag=&quot;FwordCTF{Fr0m_3very_m0unta1ns1d3_l3t_fr33d0m_r1ng_MLK}&quot;;</code></p>
+<p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
     
       <div class="sns-shares pc-sns-shares">
         

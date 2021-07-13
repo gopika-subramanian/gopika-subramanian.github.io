@@ -63,9 +63,10 @@
             <li class="navigation-item  align-center ">
               <a class="navigation-link" href="https://m0n574.github.io/about">About</a>
             </li>
-          <li class="navigation-item  align-center ">
+           <li class="navigation-item  align-center ">
               <a class="navigation-link" href="https://m0n574.github.io/Gopika_CV.pdf">CV</a>
             </li>
+          
         
         
       </ul>
@@ -78,22 +79,31 @@
         
   <section class="container centered">
   <div class="error">
-    <h1>Posts</h1><br><br>
-    <p><a href="/posts/files/MidnightsunqualsCTF/index.html">Midnightsun Quals CTF 2021 Corporate MFA</a></p><br>
-    <p><a href="/posts/files/SQLiWAFbypasses/index.html">SQLi basic bypasses</a></p><br>
-    <p><a href="/posts/files/phoenixproject/index.html">The Phoenix project: Main take aways</a></p><br>
-    <p><a href="/posts/files/noshake/index.html">InCTF Internationals 2020 No-Shake write up</a></p><br>
-    <p><a href="/posts/files/websec/index.html">Websec write ups</a></p><br>
-    <p><a href="/posts/files/los/index.html">Lord of SQL write ups</a></p><br>
-    <p><a href="/posts/files/gctf_pasteurize/index.html">Google CTF 2020 Pasteurize</a></p><br>
-    <p><a href="/posts/files/gctf_logmein/index.html">Google CTF 2020 Log-me-in</a></p><br>
-    <p><a href="/posts/files/allesctf_push/index.html">Alles CTF 2020 Push</a></p><br>
-    <p><a href="/posts/files/allesctf_onlyfreights/index.html">Alles CTF 2020 Only Freights</a></p><br>
+   
+<h1 id="midnightsun-corporate-mfa">Midnightsun Corporate MFA</h1>
+<p><strong>tl;dr</strong></p>
+<ul>
+<li>Website take Username, Password and MFA token</li>
+<li>Three bypass is serialised and send to User class</li>
+<li>Sending an object reference which calls `correctValue`</li>
+</ul>
+<h2 id="challenge-description">Challenge description</h2>
+<p>The source for this corporate-zer trust multi factor login portal has been leaked! Figure ot how to defeat the super-secure one time code.</p>
+<h2 id="initial-analysis">Initial analysis</h2>
+<p>We are provided with the <a href="/posts/files/MidnightsunqualsCTF/corpmfa.tar.gz"><code>source code</code></a>. The application is a login page which takes username, password and an MFA token. There are two files index.php and User.php. The input is then serialised <code>serialize((object)$_POST)</code> and send to User class. Ananlysing the User.php, firstly <code>username === 'D0loresH4ze'</code> so we have to set the username the same, with the reference to Mr. Robot we find the password to be rasmuslerdorf. For the MFA check <code>(int)$this-&gt;userData-&gt;mfa === $this-&gt;userData-&gt;_correctValue;</code></p>
+<p>So we should create an object which will that will create MFA wrt <em>correctValue. So the following code will generate the serialised value. `class User { public <span class="math">$username = &quot;D0loresH4ze&quot;;     public $</span>password = &quot;rasmuslerdorf&quot;; public <span class="math"><em>m</em><em>f</em><em>a</em>; <em>p</em><em>u</em><em>b</em><em>l</em><em>i</em><em>c</em></span></em>correctValue; }</p>
+<p><span class="math"><em>u</em><em>s</em><em>e</em><em>r</em> = <em>n</em><em>e</em><em>w</em><em>U</em><em>s</em><em>e</em><em>r</em>(); </span>user-&gt;mfa =&amp; $user-&gt;_correctValue;</p>
+<p>echo base64_encode(serialize($user));`</p>
+<p>When we submit the serialised string, we bypass the three checks and the input gives us the flag <code>midnight{395E160F-4D7A99EF-08E6799741B5}</code></p>
+<h2 id="flag">Flag</h2>
+<p><strong>FLAG</strong>: <code>midnight{395E160F-4D7A99EF-08E6799741B5}</code></p>
+<p>For further queries, please DM me on Twitter: <a href="https://twitter.com/m0n574">https://twitter.com/m0n574</a>.</p>
   </div>
 </section>
 
 
       </div>
+<br><br><br><h3 align="center"><a href="https://m0n574.github.io/posts/">OTHER POSTS</a></h3>
       
         <footer class="footer">
   <section class="container">
